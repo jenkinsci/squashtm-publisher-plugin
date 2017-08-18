@@ -1,34 +1,28 @@
-# What is it #
+# Squash TM publisher #
 
 
 ### Description ###
-This plugin publishes the test results of a Jenkins build on Squash TM. It works on top of other publisher plugins dedicated to the test technology that used in the build (junit, nunit, mstest etc), before pushing the results.
+This plugin publishes the test results of a Jenkins build in Squash TM. It works on top of other publisher plugins dedicated to the test technology that used in the build (junit, nunit, mstest etc), before pushing the results.
 
 
-### Limitations ###
-In this version, only the passive mode is implemented (see Workflow below).
+### Usage ###
+The plugin leverages the workflow implemented in the [Squash TM / Squash TA integration scenario](https://sites.google.com/a/henix.fr/wiki-squash-ta/tm---ta-guide/user-guide). In a few words, it allows Squash TM to list the tests of a job, trigger a build and gather the test results, with some restrictions (listed in section [Comparison with Squash TA](#comparison-with-squash-ta)). The job can be of any nature (free-style or else) and use any test technology (if a Jenkins plugin is also configured for it).
+
+Also, due to the nature of that workflow please note that in this version the publisher will process the results **only if the build was triggered by Squash TM**. This limitation will be addressed in future developments.
 
 
-### Workflow ###
-This plugin (will) support two different publishing : passive and active. In the current version only the passive mode is implemented. You can enable both modes in the same job.
+### Future developments ###
+In the future we plan to add the following features :
 
-
-**Passive mode :**
-
-The plugin will publish the results of a build **only if it was triggered by Squash TM**, while builds triggered by other cues will be ignored (e.g. scheduled jobs or direct user input in Jenkins GUI). Functionally it mimics the interactions between Squash TM and a Squash TA job ([see user documentation here](https://sites.google.com/a/henix.fr/wiki-squash-ta/tm---ta-guide/user-guide)).
-
-
-**Active mode (not implemented yet):**
-
-The plugin will publish the results of any build, even when Squash TM did not explicitly started it.
-
+* publish the test results continuously,
+* simplify the deployment of Squash TA projects.
 
 
 ### Dependencies ###
-This plugin requires Jenkins version 1.651.3, and the JUnit plugin version 1.19+ must be installed (not tested with earlier versions).
+This plugin works for Jenkins version 1.651.3 or higher and requires JUnit plugin v1.19+ (not tested with earlier versions).
 
 
-# Usage #
+# Configuration #
 
 ## Global settings ##
 
@@ -41,7 +35,8 @@ As an administrator, go to the system configuration (first item in the administr
 
 These will allow the plugin to identify instances of Squash TM that request for result update, and to authenticate on them.
 
-The 'validate' button (next to 'delete') will test that the server is reachable and up. For now the credentials aren't validated yet. Potential errors in your configuration will issue a warning. Once you are done, save the configuration as usual. You can save the configuration even if warnings were reported.
+The 'validate' button (next to 'delete') will test that the server is reachable and up. For now the credentials aren't validated yet. Potential errors in your configuration will issue a warning. Once you are done save the configuration as usual. You can save the configuration even if warnings were reported, e.g. when the endpoint is down at the moment yet the URL is correct nonetheless.
+
 
 ## Job Settings ##
 
@@ -85,9 +80,9 @@ The following features are **NOT** supported :
 # Developper documentation #
 ## Requirements ##
 
-* java jdk, version 1.7 minimum
-* groovy, version 1.8
-* Gradle, version 2.14 prefered but not critical.
+* Java jdk, version 1.7+
+* Groovy, version 1.8+
+* Gradle, version 2.14 used during the development preferred but not critical.
 
 ## Installation ##
 
@@ -132,14 +127,14 @@ I could not get Eclipse to hotswap code out of the box for several reasons. I ba
  
 4. Edit your Eclipse .classpath and set :
 ```
-	<classpathentry kind="output" path="build/classes/main"/>
+<classpathentry kind="output" path="build/classes/main"/>
 ```
 instead of
 ```
-	<classpathentry kind="output" path="bin"/>
+<classpathentry kind="output" path="bin"/>
 ```
 
-This will tell Eclipse to watch this directory for class changes (thus trigger hotswap when appropriate). However we dont want it to mess with the output of the Gradle build, so step 5 is :
+This will tell Eclipse to watch this directory for class changes (thus trigger hotswap when appropriate). However we dont want it to mess with the output of the Gradle build, hence the next step.
 
 5. Disable 'Build automatically', or if you prefer hack in your file .project and remove the build commands that do compilation job.
 

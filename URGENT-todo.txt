@@ -1,5 +1,10 @@
-added :
-bsiri, 2017-08-17, version 0.2.0.RC3-SNAPSHOT
+Added by bsiri, 2017-08-17, version 0.2.0.RC3-SNAPSHOT
+
+Updates
+--------------------
+ *2017-08-18 : had to update jenkins-ci.jpi plugin version anyway because newer versions of gradle wouldn't work (and you
+ need one until you generated a wrapper for any other gradle version)
+
 
 The problem
 --------------------

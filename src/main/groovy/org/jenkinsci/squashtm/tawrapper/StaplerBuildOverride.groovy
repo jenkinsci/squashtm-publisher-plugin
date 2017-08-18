@@ -152,7 +152,7 @@ class StaplerBuildOverride {
 	 * Here we look for parameters that are used in a regular Squash TA build. Each parameter is tested on its name 
 	 * and type. The parameters that passed the test are returned as TAParametersAction.
 	 * 
-	 * You can find the list of the parameters usually instructing for a TA build org.jenkinsci.squashTM.tawrapper.TA
+	 * You can find the list of the parameters usually instructing for a TA build in org.jenkinsci.squashTM.tawrapper.TA
 	 *
 	 */
 	

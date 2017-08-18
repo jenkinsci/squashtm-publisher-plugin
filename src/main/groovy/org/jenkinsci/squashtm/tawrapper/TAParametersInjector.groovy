@@ -70,7 +70,8 @@ import static org.jenkinsci.squashtm.tawrapper.TA.PRM_TEST_SUITE_JSON
 class ParameterInjector extends QueueDecisionHandler {
 	
 	private final static Logger LOGGER = Logger.getLogger(ParameterInjector.class.getName());
-	
+
+	@Override
 	public boolean shouldSchedule(Task p, List<Action> actions){
 	
 		if (buildUsesWrapper(p)){
