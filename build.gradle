@@ -1,0 +1,183 @@
+plugins {
+  id 'maven-publish' 
+  id 'net.researchgate.release' version '2.4.0'
+  id "com.github.hierynomus.license" version "0.13.1"
+  id 'org.jenkins-ci.jpi' version '0.22.0'
+}
+
+// the following properties are set in gradle.properties
+group = pGroup
+version = version	// that one HAS to be named 'version' because of the release plugin
+sourceCompatibility = pSrcVer
+targetCompatibility = pTarVer
+
+description = 'Publish the test results to Squash TM when a build completes.'
+
+
+jenkinsPlugin {
+    // version of Jenkins core this plugin depends on, must be 1.420 or later
+    coreVersion = jenkinsVer
+
+    // ID of the plugin, defaults to the project name without trailing '-plugin'
+    shortName = 'squashtm-publisher'
+
+    // human-readable name of plugin                                               
+    displayName = 'Squash TM Publisher'
+
+    // use the plugin class loader before the core class loader, defaults to false
+    pluginFirstClassLoader = true
+
+    // optional list of package prefixes that your plugin doesn't want to see from core
+    //maskClasses = 'groovy.grape org.apache.commons.codec'
+
+    // optional version number from which this plugin release is configuration-compatible
+    //compatibleSinceVersion = '1.1.0'
+
+    // set the directory from which the development server will run, defaults to 'work'
+    workDir = file('/tmp/jenkins')
+
+    // URL used to deploy the plugin, defaults to the value shown
+    //repoUrl = 'https://repo.jenkins-ci.org/releases'
+
+    // URL used to deploy snapshots of the plugin, defaults to the value shown
+    //snapshotRepoUrl = 'https://repo.jenkins-ci.org/snapshots'
+
+    // enable injection of additional tests for checking the syntax of Jelly and other things
+    //disabledTestInjection = true
+
+    // the output directory for the localizer task relative to the project root, defaults to the value shown
+    localizerOutputDir = "${project.buildDir}/generated-src/localizer"
+
+    // disable configuration of Maven Central, the local Maven cache and the Jenkins Maven repository, defaults to true
+    //configureRepositories = false
+
+    // skip configuration of publications and repositories for the Maven Publishing plugin, defaults to true
+    configurePublishing = true
+
+    // plugin file extension, either 'jpi' or 'hpi', defaults to 'hpi'
+    fileExtension = 'jpi'
+
+    // the developers section is optional, and corresponds to the POM developers section
+    developers {
+        developer {
+            id 'bsiri'
+            name 'Benoit Siri'
+            email 'bsiri@henix.fr'
+        }
+    }                        
+}
+
+// ********* code-related tasks configuration *****************
+
+test {
+	testLogging{
+		events "skipped", "failed"
+		
+		debug{
+			events "skipped", "failed"
+			showStandardStreams = true
+		}
+	}
+}
+
+license {
+	header = file 'header.txt'
+	
+	ext {
+		projectLabel = rootProject.name
+		yearSpan = '2016-2017'
+		copyrightOwner = 'Henix, henix.fr'	// give credit to contributors too (when we have contributors of course).
+	}
+	
+	excludes (['**/Messages.java', 
+				'**/package-info.java', // excluding those ones because licenses make the :javadoc task fail
+				'**/*.json'])
+}
+
+compileGroovy{
+	// forces the application of license
+	dependsOn licenseFormat
+}
+
+
+// ********** project management tasks *******************
+
+repositories{
+	maven {
+		url "http://repo.jenkins-ci.org/public/"
+	}
+}
+
+
+
+dependencies {
+	
+	compile 'org.apache.httpcomponents:httpclient:4.5'
+	
+	//jenkinsPlugins 'org.jenkins-ci.plugins:junit:[1.10,)@jar'
+	jenkinsPlugins group: 'org.jenkins-ci.plugins', name: 'junit', version: '[1.10, )',  ext: 'jar'
+	
+	testCompile 'org.spockframework:spock-core:0.7-groovy-1.8',
+				'org.objenesis:objenesis:2.4',
+				'net.bytebuddy:byte-buddy:1.5.2'
+}
+
+
+/*
+ *  publishing
+ *	==========
+ *
+ *
+ *	Configuration of the 'maven-publish' plugin. Since this project is closed sources we cannot 
+ *	publish to the usual repositories (neither official Jenkins repository, neither Squash repository).
+ *	The following ensures that the artifacts are pushed :
+ * 		- on the regular maven repository (dev machine)
+ * 		- on the 'private-deploy' repository (on our forge) 
+ *
+ *	This is driven by the file 'gradle.properties'. By default the variable 'repoLocation' point 
+ *  to the regular repository, while on our forge the value will be overriden by the same file in 
+ *  ~/.gradle/gradle.properties', in which case it will point to the private deploy.
+ *
+ *	conf details
+ * 	=============	
+ *
+ *  The 'jenkins-jpi' itself applies 'maven-publish', that's why we don't declare it ourself.
+ *  Furthermore 'jenkins-jpi' configures it, declaring :
+ *  	- repositories : the jenkins repository, 
+ *  	- publications : the artifact named 'mavenJpi'
+ *  
+ *  Then, the following declares another repository, named 'private', which url depends on the 
+ *  machine that runs the build (see above). 
+ *  
+ *  After configuration, the maven-publish plugin will then create the task 'publishMavenJpiPublicationToPrivateRepository'
+ *  accordingly, plus some other we wont use. For the sake of simplicity we just declare then another task
+ *  'publishToPrivateRepo', that is essentially an alias.
+ *
+ *	Also, I had to write it with this weird style because the groovy builder style would trigger an error.
+ */
+
+def usrHome = System.getProperty('user.home')
+project.extensions.publishing.repositories.maven {
+	name = "private"
+	url "file:/${usrHome}/${repoLocation}"
+}
+
+
+// the short alias task for publishing. Note that the real task 'publishMavenJpiPublicationToPrivateRepository' is a generated task, 
+// so we specify the dependency with the task name (a string), instead of the task object itself (that doesn't exist yet) 
+task publishToPrivateRepo {
+	group = 'publishing'
+	description = 'alias for task publishMavenJpiPublicationToPrivateRepository'
+	dependsOn 'publishMavenJpiPublicationToPrivateRepository'
+}
+
+
+// releases
+release {
+	tagTemplate = 'squashtm-publisher-$version' // as per documentation single-quotes are required here
+}
+
+// make the release process push the built artifact to the repository before updating to the new dev version
+afterReleaseBuild {
+	dependsOn publishToPrivateRepo
+}

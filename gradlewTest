@@ -1,0 +1,6 @@
+#! /bin/bash
+
+#  the --no-daemon is due to http://stackoverflow.com/questions/22760752/how-to-enable-debug-on-my-junit-through-gradle-test-task
+#export GRADLE_OPTS="$GRADLE_OPTS -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+
+./gradlew --no-daemon test -Dtest.debug #--debug-jvm

@@ -1,0 +1,67 @@
+{
+  "test": [
+    {
+      "id": "87",
+      "script": "org\/bsiri\/heroquest\/altdorf\/AltdorfSewersTest\/test",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "88",
+      "script": "org\/bsiri\/heroquest\/heroes\/BotchedTest\/test",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "89",
+      "script": "org\/bsiri\/heroquest\/monsters\/HibernateSessionFactoryTest\/combatWillNotOccur",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "90",
+      "script": "org\/bsiri\/heroquest\/heroes\/HeroTest\/meetBobTheWarrior",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "91",
+      "script": "org\/bsiri\/heroquest\/heroes\/MainTest\/omgThereIsAnError",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "92",
+      "script": "org\/bsiri\/heroquest\/heroes\/MainTest\/oopsFailure",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "93",
+      "script": "org\/bsiri\/heroquest\/monsters\/OrcTest\/shouldDestroyThatRat",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "94",
+      "script": "org\/bsiri\/heroquest\/interfaces\/MapCoordinateTest\/testRelativeLocations",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    },
+    {
+      "id": "95",
+      "script": "org\/bsiri\/heroquest\/heroes\/MainTest\/thisTestIsASuccess",
+      "param": {
+        "TC_REFERENCE": ""
+      }
+    }
+  ]
+}

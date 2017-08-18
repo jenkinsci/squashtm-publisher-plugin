@@ -1,0 +1,64 @@
+added :
+bsiri, 2017-08-17, version 0.2.0.RC3-SNAPSHOT
+
+The problem
+--------------------
+
+In the current state the plugin cannot be tested using `gradlew server` (or gradlewSrv).
+
+The plugin requires :
+* jenkins-core 1.651.3 or above
+* junit plugin 1.10 or above (see build.gradle > dependencies > jenkinsPlugins)
+
+The environment prepped by `gradlew server` is :
+* jenkins-core 1.651.3
+* junit plugin < 1.10
+
+In order to fix that the solution used to manually upgrade that plugin via the administration menu. The upgrade mechanism
+doesn't allow to pick a specific version, it always update to the last version. It worked fine until junit 1.19 (last time
+I checked).
+
+A few days ago junit 1.22-SNAPSHOT was released and became the only version you can upgrade to, however it totally breaks
+jenkins 1.651 which seems now too old (fair point).
+
+As we will now see, upgrading to a newer Jenkins poses more problems that we cannot afford to solve right now because
+release dates is tomorrow.
+
+
+Temporary solution
+-------------------
+
+Use an external Jenkins, preferably Jenkins 2 or above. This situation of course must not last.
+
+
+Target solution
+-------------------
+
+Upgrade the minimal version of Jenkins to something more up-to-date. Problems are :
+
+1/ strategic : should we stop support for Jenkins 1 ?
+
+2/ technical : changing Jenkins core version is not enough, and depending on the version different problems arise (see below).
+
+
+Candidate solution : upgrade jenkins-core
+------------------------------------------
+
+As stated above changing `jenkinsVer` in `gradle.properties` leads to more problems :
+
+* version 2.1, 2.2 : the plugin doesn't compile. It seems related to https://issues.jenkins-ci.org/browse/JENKINS-33581 since an inspection
+of `gradlew dependencies` shows that indeed the modules jenkins-core and stapler-groovy require different versions of groovy-all
+
+* version 2.60 : the unit test fail because Spock cannot mock some classes, it would require cglib-nodep 2.2 or higher. What I
+don't understand yet is that the said classes are imported at same version in both case (junit 1.22-SNAPSHOT), so it makes no
+sense that the version of jenkins-core would have an impact on this
+
+* version 2.74 : cannot find some jar in any repository, I believe the name is like jenkins-war-for-test
+
+
+Candidate solution : upgrade the gradle jenkins-ci.jpi plugin
+-----------------------------------------------------------
+
+I don't know much yet on the overall issue but this might help with the various problems stated above. Be careful though :
+newer versions don't declare 'maven-publish'. So remember to add it to the applied plugins otherwise the gradle script will
+break (the group 'publishing' will stay undefined).

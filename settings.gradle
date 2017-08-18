@@ -1,0 +1,2 @@
+// see gradle.properties
+rootProject.name = pName
