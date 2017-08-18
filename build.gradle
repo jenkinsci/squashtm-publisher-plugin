@@ -6,7 +6,7 @@ plugins {
 }
 
 // the following properties are set in gradle.properties
-group = pGroup
+group = 'org.jenkins-ci.plugins'
 version = version	// that one HAS to be named 'version' because of the release plugin
 sourceCompatibility = pSrcVer
 targetCompatibility = pTarVer
