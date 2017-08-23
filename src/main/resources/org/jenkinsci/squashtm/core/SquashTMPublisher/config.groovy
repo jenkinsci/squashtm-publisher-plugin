@@ -26,12 +26,13 @@ package org.jenkinsci.squashtm.core.SquashTMPublisher
 
 import lib.FormTagLib
 import org.jenkinsci.squashtm.lang.Messages
-
+import static org.jenkinsci.squashtm.core.SquashTMPublisher.DUMMY_SELECTED_SERVER_NAME
 
 
 /*
- * TODO : the following will be used for the active mode (once implemented). If cannot be implemented soon, move this to a
- * feature branch. Until then, the generate command is commented
+ * TODO : the following will be used when the coutinuous publishing feature will be implemented.
+ * If cannot be implemented soon, move this to a feature branch. Until then the user interface is
+ * commented.
  */
 //displayConfPanel()
 
@@ -61,7 +62,7 @@ def displayConfPanel(){
              *  the data for attribute 'selectedServers' will always be an array.
              */
 			div(name:"selectedServers", style : "display:none", {
-				input(type:"text", name : "identifier", value : "whatever")
+				input(type:"text", name : "identifier", value : DUMMY_SELECTED_SERVER_NAME)
 				input(type:"checkbox", name : "selected")
 			})
 

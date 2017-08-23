@@ -28,7 +28,7 @@ import java.util.Collection;
 
 
 class ResultPoster {
-	void postResults(JobInformations infos, Collection<TestResult> results, PrintStream logger){
+	void postResults(JobInformations info, Collection<TestResult> results, PrintStream logger){
 		// NOOP for now
 	}
 }

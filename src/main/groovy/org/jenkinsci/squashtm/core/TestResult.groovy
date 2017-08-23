@@ -60,8 +60,8 @@ public class TestResult implements Serializable{
 	private String name
 	
 	/**
-	 * Absolute path representing that test. It should start with /jobname and then any '/' delimited string. Double '/' should be avoided. If you meet these requiremnets, anything goes.
-	 * For instance a path a method 'testMethod' of a JUnit class 'org.randomcode.tests.MyTestClass' hosted in job 'TheJob' would naturally be : '/TheJob/org/randomcode/tests/MyTestClass/testMethod'. 
+	 * Absolute path representing that test. It should start with /jobname and then any '/' delimited string. Double '/' should be avoided. As long as you meet these requirements anything goes.
+	 * For instance a method 'testMethod' of a JUnit class 'org.randomcode.tests.MyTestClass' hosted in job 'TheJob' would naturally be : '/TheJob/org/randomcode/tests/MyTestClass/testMethod'.
 	 * But simply using '/TheJob/testMethod' would be fine. Of course in that later case a conflict occurs, consequences are on you. 
 	 */
 	private String path

@@ -23,9 +23,7 @@
  */
 package org.jenkinsci.squashtm.core;
 
-import org.jenkinsci.squashtm.tawrapper.TA
 import org.jenkinsci.squashtm.tawrapper.TAParametersAction
-import org.jenkinsci.squashtm.tawrapper.SquashTAWrapperProperty
 
 import hudson.FilePath
 import hudson.model.ParameterValue
@@ -33,12 +31,17 @@ import hudson.model.ParameterValue
 /**
  * <p>
  * 		A JobInformations embeds the informations we need about the build and the project. 
- * 		This structure is lighter than the full {@link Run} object and could be serialized 
- * 		and sent over the network to a slave node when relevant.
+ * 		This structure is lighter than the full {@link hudson.model.Run} object and could be serialized
+ * 		and sent over the network to a slave node when relevant (Note : for now it appears
+ * 		that everything happens on the master node so concerns about serialization aren't crucial for now).
  * </p>
- * 
+ *
  * @author bsiri
  *
+ */
+/*
+ * Note : just noticed that "information" has no plural form in english and thus "informations"
+ * is incorrect, apologies.
  */
 class JobInformations implements Serializable {
 
@@ -47,7 +50,7 @@ class JobInformations implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	// ************* project informations *************
+	// ************* project information *************
 	
 	/**
 	 * <p>
@@ -56,15 +59,16 @@ class JobInformations implements Serializable {
 	 * 
 	 * <h3>What</h3>
 	 * <p>
-	 * 	This is a reference for that identify the <strong>system under test</strong> (as opposed to the present project being built). 
-	 * 	It may designate a single project, or a whole group of services hosted on different servers etc. as long as it refers accurately to
-	 *  what is being tested. We recommend to embed the version number of this environment in this reference.  
+	 * 	This is a reference that identify the <strong>system under test</strong> (as opposed to the present project being built).
+	 * 	It may designate a single project, or a whole group of services hosted on different servers etc. We recommend to
+	 * 	embed the version number of this environment in the reference.
 	 * </p>
 	 * <p>
-	 * 		In many instances the project under test is also the project being built, but not always :
+	 * 		In some instances the project under test is also the project being built but not always, e.g. :
 	 *	  	<ul>
-	 *	 		<li>sometimes the project being built is a performance test project, that fires against the project under test deployed elsewhere,</li>
-	 *	 		<li>some other times the real name of the project is different from the technical name.</li>
+	 *	 		<li>sometimes the project being built is a performance test project, that fires against the system under
+	 *	 		test deployed elsewhere,</li>
+	 *	 		<li>the real name of the project is different from the technical name.</li>
 	 *	 	</ul>
 	 * </p>
 	 * 
@@ -80,7 +84,7 @@ class JobInformations implements Serializable {
 	String systemUnderTest;
 	
 	
-	// ************* job informations *******************
+	// ************* job information *******************
 	
 	/**
 	 * the name of the Jenkins job
@@ -93,7 +97,7 @@ class JobInformations implements Serializable {
 	FilePath basePath
 	
 	/**
-	 * the directory where Jenkins store its own informations regarding the build itself. Internal usage only.
+	 * the directory where Jenkins store its own information regarding the build itself. Internal usage only.
 	 */
 	transient File buildPath
 	

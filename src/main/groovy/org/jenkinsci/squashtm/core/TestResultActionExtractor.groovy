@@ -39,7 +39,7 @@ import org.jenkinsci.squashtm.core.TestResult.ExecutionStatus
 class TestResultActionExtractor {
 
 	Run build
-	JobInformations infos
+	JobInformations info
 
 		
 	public Collection<TestResult> collectResults(){
@@ -73,7 +73,7 @@ class TestResultActionExtractor {
 			
 			def childextractor = new TestResultActionExtractor(
 				build : childbuild,
-				infos : infos
+				info : info
 			)
 			
 			return childextractor.collectResults()
@@ -94,14 +94,14 @@ class TestResultActionExtractor {
 			def res = new TestResult()
 			def path = formatPath it
 			
-			res.systemUnderTest = infos.systemUnderTest
-			res.projectName = infos.jobName
+			res.systemUnderTest = info.systemUnderTest
+			res.projectName = info.jobName
 			res.testID = path
 			res.path = path
 			res.name = it.displayName
 			res.status = coerceStatus it
 			res.message = formatMessage it
-			res.host = infos.hostURL
+			res.host = info.hostURL
 			res.resultURL = formatUrl action, it
 			
 			return res
@@ -115,7 +115,7 @@ class TestResultActionExtractor {
 	
 	private String formatPath(hudson.tasks.test.TestResult jenres){
 		def testpath = jenres.fullName.replace('/', '\\/').replace('.', '/')
-		return "/${infos.jobName}/${testpath}"
+		return "/${info.jobName}/${testpath}"
 	}
 	
 	private ExecutionStatus coerceStatus(hudson.tasks.test.TestResult jenres){
@@ -142,7 +142,7 @@ msg = """<p>
 	
 	private String formatUrl(AbstractTestResultAction action, hudson.tasks.test.TestResult jenres){
 		def testUrl = action.getTestResultPath jenres 
-		return "${infos.hostURL}/${build.url}$testUrl"
+		return "${info.hostURL}/${build.url}$testUrl"
 	}
 		
 }

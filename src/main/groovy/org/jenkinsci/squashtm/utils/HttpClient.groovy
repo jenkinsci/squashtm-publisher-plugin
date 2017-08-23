@@ -79,7 +79,8 @@ class HttpClient implements Closeable{
 		
 		// credentials : 
 		CredentialsProvider credsProvider = new BasicCredentialsProvider()
-		
+
+		// TODO : use Jenkins credentials manager instead ?
 		credsProvider.setCredentials(
 			new AuthScope(host.hostName, host.port),
 			new UsernamePasswordCredentials(server.login, server.password)

@@ -54,7 +54,7 @@ class SquashTAWrapperProperty extends OptionalJobProperty<Job<?,?>>{
 		
 		@Override
 		public String getDisplayName(){
-			return  Messages.tmpublisher_job_enabledbyTM()
+			return  Messages.tmpublisher_job_TMintegration()
 		}
 			
 	}

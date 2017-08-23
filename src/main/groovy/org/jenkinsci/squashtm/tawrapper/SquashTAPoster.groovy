@@ -46,17 +46,17 @@ import static org.jenkinsci.squashtm.tawrapper.TA.PRM_NOTIFICATION_URL
  * 	This class will send the test results to Squash TM, posing as Squash TA. Which means that :
  * 
  * <ol>
- * 	<li>The TestResult will be posted to the rest API usually dedicated to Squash TA,</li>
- * 	<li>in the format Squash TM is expecting</li>
+ * 	<li>The TestResult will be posted to the http endpoints usually dedicated to Squash TA,</li>
+ * 	<li>data structured the format Squash TM is expecting</li>
  * </ol>
  * 	
  * </p>
  * 
  * <p>
- * 	The plugin choose this mode when the build was triggered by Squash TA. In this mode, each test result 
- * 	will be sent in its own HTTP request. The URL where they will be posted must be extracted from the 
- * 	test suite descriptor file sent by Squash TM. TestResult than cannot be found in the test suite descriptor 
- * 	file will not be sent, although in this case they will be logged.
+ * 	The plugin chooses this mode when the build was triggered by Squash TA (and the TA wrapper is enabled).
+ * 	In this mode, each test result will be sent in its own HTTP request. The URL where they will be posted must be
+ * 	extracted from the test suite descriptor file sent by Squash TM. TestResult than cannot be found in the test suite
+ * 	descriptor file will not be sent, although in this case they will be logged.
  * </p>
  * 
  * @author bsiri
@@ -66,7 +66,7 @@ public class SquashTAPoster {
 
 	// must be initialized 
 	Collection<TMServer> knownServers = []
-	JobInformations infos
+	JobInformations info
 	PrintStream logger
 	
 	// private variables	
@@ -77,9 +77,9 @@ public class SquashTAPoster {
 		
 	}
 	
-	public SquashTAPoster(Collection<TMServer> servers, JobInformations infos, PrintStream logger){
+	public SquashTAPoster(Collection<TMServer> servers, JobInformations info, PrintStream logger){
 		knownServers = servers
-		this.infos = infos
+		this.info = info
 		this.logger = logger
 	}
 	
@@ -140,10 +140,10 @@ public class SquashTAPoster {
 	
 	Map<String, Object> jsonFileToMap(){
 		
-		FileBuildParameter fileinfos = infos.tawrapperParameters.getParameter PRM_TEST_SUITE_JSON
+		FileBuildParameter fileinfo = info.tawrapperParameters.getParameter PRM_TEST_SUITE_JSON
 		
-		def filepath = (fileinfos.absoluteLocation) ? new FilePath(new File(fileinfos.location)) :
-													  new FilePath(infos.basePath, fileinfos.location)
+		def filepath = (fileinfo.absoluteLocation) ? new FilePath(new File(fileinfo.location)) :
+													  new FilePath(info.basePath, fileinfo.location)
 		
 		def json = filepath.readToString()
 		
@@ -159,7 +159,7 @@ public class SquashTAPoster {
 		 */
 		
 		def testmap = testsuite.test.collectEntries{
-			it.script = "/${infos.jobName}/${it.script}"
+			it.script = "/${info.jobName}/${it.script}"
 			[(it.script.toString()) : it]	// the toString() ensure that the key won't be a GString but a regular String
 		}
 		
@@ -195,7 +195,7 @@ public class SquashTAPoster {
 	
 	// returns the endpoint url parameter, with trailing slashes removed
 	String getEndpointUrl(){
-		normalize infos.tawrapperParameters.getParameter(PRM_NOTIFICATION_URL)?.value
+		normalize info.tawrapperParameters.getParameter(PRM_NOTIFICATION_URL)?.value
 	}
 	
 	private normalize(String url){

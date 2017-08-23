@@ -47,6 +47,7 @@ import org.kohsuke.stapler.QueryParameter
  * @author bsiri
  *
  */
+// TODO : delegate the login and password to Jenkins credential manager instead ?
 public final class TMServer extends AbstractDescribableImpl<TMServer>{
 	
 	private final static Logger LOGGER = Logger.getLogger(TMServer.class.getName());

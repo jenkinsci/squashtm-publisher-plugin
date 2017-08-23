@@ -56,8 +56,9 @@ import org.kohsuke.stapler.StaplerRequest
  * @author bsiri
  */
 public class SquashTMPublisher extends Notifier implements SimpleBuildStep{
-	
-	private final static Logger LOGGER = Logger.getLogger(SquashTMPublisher.class.getName());
+
+	// TODO : also, ensure in the global configuration that no declared instance of Squash TM could be named like that
+	public static final String DUMMY_SELECTED_SERVER_NAME = '$*µdummy!!:`';
 	
 	/**
 	 * The identifiers of the TM servers that this build-specific instance of BuildStep should post to
@@ -71,11 +72,11 @@ public class SquashTMPublisher extends Notifier implements SimpleBuildStep{
 	
 		// retain only those that are actually selected
 		// and that are not the 'whatever' checkbox hack
-		this.selectedServers = selectedServers.findAll { it.selected && it.identifier != "whatever"}
+		this.selectedServers = selectedServers.findAll { it.selected && it.identifier != DUMMY_SELECTED_SERVER_NAME }
 	}
 		
 	/*
-	 * Required because inherited from huson.taskd.BuildStep. This says that we dont need to prevent Jenkins to use concurrent builds.
+	 * Required because inherited from hudson.task.BuildStep. This says that we don't need to prevent Jenkins to use concurrent builds.
 	 * Consider using another value if some day that changes.
 	 */
 	@Override
@@ -100,26 +101,26 @@ public class SquashTMPublisher extends Notifier implements SimpleBuildStep{
 		
 		def logger = listener.logger
 				
-		// create the job informations
-		logger.println "[TM-PLUGIN] : extracting job informations"
-		JobInformations infos = JobInformationsFactory.create build, workspace
+		// create the job information
+		logger.println "[TM-PLUGIN] : extracting job information"
+		JobInformations info = JobInformationsFactory.create build, workspace
 				
 		// extract the test data
 		logger.println "[TM-PLUGIN] : collecting test result data"		
 		def extractor = new TestResultActionExtractor(
 			build : build,
-			infos : infos
+			info : info
 		)
 		
 		def results = extractor.collectResults()
 		
 		
 		// saving the test list for later use in the TestListAction
-		if (infos.usesTAWrapper){
+		if (info.usesTAWrapper){
 			logger.println "[TM-PLUGIN] : TA support is enabled"
 			
 			logger.println "[TM-PLUGIN] : saving the test list"
-			def saver = new TestListSaver(infos, logger)
+			def saver = new TestListSaver(info, logger)
 			saver.saveTestList results
 		}
 		
@@ -133,15 +134,15 @@ public class SquashTMPublisher extends Notifier implements SimpleBuildStep{
 		
 		def conf = getDescriptor()
 		
-		if (infos.usesTAWrapper && infos.tawrapperParameters.isTestRunBuild()){
+		if (info.usesTAWrapper && info.tawrapperParameters.isTestRunBuild()){
 			// post as Squash TA
-			def poster = new SquashTAPoster(conf.tmServers, infos, logger)
+			def poster = new SquashTAPoster(conf.tmServers, info, logger)
 			poster.postResults results
 		
 		}else{
 			// post as normal (not yet supported)
 			def poster = new ResultPoster()
-			poster.postResults infos, results, logger
+			poster.postResults info, results, logger
 		}
 				
 		logger.println "[TM-PLUGIN] : job done"
@@ -184,7 +185,7 @@ public class SquashTMPublisher extends Notifier implements SimpleBuildStep{
 			
 			// we save the configuration even when it's invalid,
 			// because dumping the user conf over a petty typo in a URL and not letting the user know is so jerk-ish
-			// the user had a chance to validate before applying the configuration so let's assume he know what he's doing. 
+			// the user had a chance to validate before applying the configuration so let's assume he knows what he's doing.
 			save();
 			
 			/*

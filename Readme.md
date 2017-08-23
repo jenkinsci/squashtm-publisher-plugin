@@ -42,7 +42,7 @@ The 'validate' button (next to 'delete') will test that the server is reachable 
 
 As a job manager, go to the configuration page of your job.
 
-Jobs of all nature are supported. As a job manager, go to the configuration page of your job. In order to work the plugin requires two simple items. First, on the general job properties, tick the box 'This build can be triggered by Squash TM'. Then add a new post-build step : 'Publish your tests results on Squash TM'.
+Jobs of all nature are supported. As a job manager, go to the configuration page of your job. In order to work the plugin requires two simple items. First, on the general job properties, tick the box 'Enable integration with Squash TM'. Then add a new post-build step : 'Publish your tests results on Squash TM'.
 
 That's all you need to configure TM-publisher per-se. However you will also need to configure additional test result publishers such as [JUnit plugin](https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin), [NUnit plugin](https://wiki.jenkins-ci.org/display/JENKINS/NUnit+Plugin), [JSUnit plugin](https://wiki.jenkins-ci.org/display/JENKINS/JSUnit+plugin) etc. Remember that TM-publisher simply pushes tests results, it does not generate them.
 

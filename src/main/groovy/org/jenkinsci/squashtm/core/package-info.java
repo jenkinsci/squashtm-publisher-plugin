@@ -1,5 +1,5 @@
 /**
- * <h1>Squash TM Publisher</h1>
+ * <h1>Squash TM Publisher core</h1>
  * 
  * <h2>Overview</h2>
  * 
@@ -14,9 +14,10 @@
  *  </ol>
  *  
  *  The rest of this documentation will explain how each of these are implemented and give hints on how these classes work. 
- *  This package documentation focuses on the nominal use cases. This plugin offer alternate use cases, namely the Squash TA Wrapper (aka TA Mode), 
- *  which will be covered in the dedicated package {@link org.jenkinsci.squashtm.tawrapper}. Ironically, in its first version 1.0.0, 
- *  <b>only the Squash TA wrapper is operational. The nominal use case is not completed yet.</b> 
+ *  This package documentation focuses on the core use cases (configuration and result publishing). However the core use
+ *  cases may be altered when the job enabled the TA wrapper (which is be covered in the dedicated package {@link org.jenkinsci.squashtm.tawrapper}.
+ *  Ironically, in its first version 1.0.0, <b>only the Squash TA wrapper is operational. The nominal use case is not
+ *  completed yet.</b>
  * </p>
  * 
  * <h2>User story : general configuration</h2>
@@ -44,10 +45,9 @@
  * 	
  * <p><b>classes (src/main/groovy)</b></p>
  * 	<ul>
- * 		<li>{@link org.jenkinsci.squashtm.core.SquashTMPublisher.PublisherStepDescriptor} : this is the extension itself, and the global configuration object. 
- * 		It contains the data persisted by Jenkins and the validation logic.</li>
+ * 		<li>{@link org.jenkinsci.squashtm.core.SquashTMPublisher.PublisherStepDescriptor} : this is the extension itself,
+ * 		and the global configuration object. It contains the data persisted by Jenkins and the validation logic.</li>
  * 		<li>{@link org.jenkinsci.squashtm.core.TMServer TMServer} : these beans are the items configured in this use case</li>
- * 		<li>src/main/resources</li>
  * 	</ul>
  * 
  *  <p><b>resources (src/main/resources)</b></p>
@@ -69,7 +69,8 @@
  * 		<li>I navigate to the job configuration page</li>
  * 		<li>I scroll down until the 'add a post build action' buttonmenu</li>
  * 		<li>In the dropwdown menu, I select the action 'publish test results on Squash TM'</li>
- * 		<li>(NOTE : this step is not exploited yet) In the panel that just appeared, I tick the checkbox for each server that should be notified on build completion.</li>
+ * 		<li>(NOTE : the UI for this step has been disabled because the feature is still under development)
+ * 		In the panel that just appeared, I tick the checkbox for each server that should be notified on build completion.</li>
  * 		<li>I also configure the other test result parsers that are relevant for my build (JUnit exporter, NUnit etc)</li>
  * 	</ol>
  * </p>
@@ -103,7 +104,7 @@
  * 	The view template always generate a dummy entry (an invisible checkbox for a dummy server). This is a trick that force the client to serialize
  *  the selected servers as an array when saving the form. Indeed, when only one element is present the client would serialize it as a single bean,  
  *  which in turn would trigger parsing exceptions on the server because it always expects an array. Pushing a dummy into the list ensures that 
- *  there will always be two elements in the list (accounting for the user selection).   
+ *  there will always be at least two elements in the list (accounting for the user selection).
  * </p>
  * 
  * <h2>Build story : publish the results</h2>
@@ -112,10 +113,10 @@
  * 
  * <p>
  * 	As a build step, I want to gather the test results and post them to Squash TM. If the build was triggered using the Squash TM-TA connector and 
- * the TA wrapper is enabled, I will respond to TM with the same API than Squash TA, otherwise I will send the data to the generic API. 
+ * the TA wrapper is enabled, I will respond to TM via the same API than Squash TA, otherwise I will send the data to the generic API.
  * 
  * 	<ol>
- * 		<li>When the build is finished, I kick in regardless of the build status</li>
+ * 		<li>When the build is finished, I kick-in regardless of the build status</li>
  * 		<li>I collect the test results by inspecting the TestResultAction, and convert them into my own result type</li>
  * 		<li>If the Squash TA wrapper enabled, I print the test list on the disk. 
  * 			It'll be used in other stories of the TA mode (see package org.jenkinsci.squashtm.tawrapper)</li>
@@ -149,18 +150,19 @@
  * 	First, a few words on how Jenkins process the test results. Depending on the project configuration Jenkins will include in its build 
  *  several {@link hudson.model.Action}. Despite the name an Action does not always act on things : some objects are labelled Action 
  *  just for the sake of being made available in the build context. One such Action is {@link hudson.tasks.test.AbstractTestResultAction AbstractTestResultAction} 
- *  and its subclass tree : it doesn't actually parse the test result but merely contain them (these actions are created by a specific build step and the results are eventually written to 
- *  disk when the build is complete).That is where our plugin will look for test results, and its the job of the TestResultActionExtractor introduced above. 
+ *  and its subclass tree : it doesn't actually parse the test result but merely contain them (these actions are created by other, specific build steps
+ *  and the results are eventually written to disk when the build is complete).That is where our plugin will look for test results, and its the job
+ *  of the TestResultActionExtractor introduced above.
  * </p>
  * 
  * <p>
  * 	There are many implementations, that deal with different file format : junit, nunit, trx, you name it. In practice most of them parse their own file then delegate to 
- *  the JUnit plugin for the rest of the work for them (writing to the disk, publishing etc). This is why our plugin never have to parse the result files itself, 
+ *  the JUnit plugin for the rest of the work (writing to the disk, publishing etc). This is why our plugin never have to parse the result files itself,
  *  as long as other, relevant plugin were added to the same build (see the use case on the job configuration).
  * </p>   
  * 
  * <p>
- * 	The family of TestResultAction branch in two main types : single and aggregate. Single is what you expect : all your tests are gatherd in that one place.
+ * 	The family of TestResultAction branch in two main types : single and aggregate. Single is what you expect : all your tests are gathered in that one place.
  * 	The aggregate type is used in split projects, for instance in Maven multimodule projects, or when aggregating the results of downstream builds. 
  * 	In that case the result extractor has to recursively check the sub-builds and inspect their test result action.
  * </p>
