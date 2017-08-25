@@ -140,8 +140,7 @@ dependencies {
  *	conf details
  * 	=============	
  *
- *  The 'jenkins-jpi' itself applies 'maven-publish', that's why we don't declare it ourself.
- *  Furthermore 'jenkins-jpi' configures it, declaring :
+ *  'jenkins-jpi' configures 'maven-publish' for us, declaring :
  *  	- repositories : the jenkins repository, 
  *  	- publications : the artifact named 'mavenJpi'
  *  

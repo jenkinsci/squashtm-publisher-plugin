@@ -44,7 +44,7 @@ public class SquashTAPosterTest extends Specification{
 
 	SquashTAPoster poster = new SquashTAPoster(
 		knownServers : mockKnownServers(),
-		infos : mockJobInfos(),
+		info : mockJobInfos(),
 		logger : new NullPrintStream()	
 	)
 	

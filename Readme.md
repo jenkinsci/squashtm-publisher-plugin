@@ -95,6 +95,12 @@ gradle wrapper --gradle-version <your favorite version>
 
 From now on, all builds should use `gradlew` (instead of gradle)
 
+## Documentation ##
+
+The various src/*/package-info.java contains an overview of the mission and code
+structure, along with references to the important classes (which sometimes also have
+their own doc).
+
 ## Useful build commands ##
 
 Please refer to [this doc site](https://wiki.jenkins-ci.org/display/JENKINS/Gradle+JPI+Plugin)

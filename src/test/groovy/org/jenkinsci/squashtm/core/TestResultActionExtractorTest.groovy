@@ -66,7 +66,7 @@ class TestResultActionExtractorTest extends Specification{
 			def build = mockRun([url : 'job/25/', action : action])
 		
 		when :
-			def extractor = new TestResultActionExtractor(build : build, infos : infos)
+			def extractor = new TestResultActionExtractor(build : build, info : infos)
 			def output = extractor.collectResults()
 			
 			
@@ -165,7 +165,7 @@ class TestResultActionExtractorTest extends Specification{
 		
 		
 		when :
-			def extractor = new TestResultActionExtractor(build : mainbuild, infos : infos)
+			def extractor = new TestResultActionExtractor(build : mainbuild, info : infos)
 			def output = extractor.collectResults()
 		
 		then :
