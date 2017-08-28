@@ -2,7 +2,7 @@
 
 
 ### Description ###
-This plugin publishes the test results of a Jenkins build in Squash TM. It works on top of other publisher plugins dedicated to the test technology that used in the build (junit, nunit, mstest etc), before pushing the results.
+This plugin publishes the test results of a Jenkins build in [Squash TM](http://squashtest.org/en/decouvrir-squash-tm/contenu-statique/outils-et-fonctionnalites/squash-tm-test-management-en). It works on top of other publisher plugins dedicated to the test technology that used in the build (junit, nunit, mstest etc), before pushing the results. See the wiki at <https://wiki.jenkins.io/display/JENKINS/Squash4Jenkins+Plugin>.
 
 
 ### Usage ###
@@ -20,6 +20,16 @@ In the future we plan to add the following features :
 
 ### Dependencies ###
 This plugin works for Jenkins version 1.651.3 or higher and requires JUnit plugin v1.19+ (not tested with earlier versions).
+
+
+### License ###
+
+This plugin is licensed under the [MIT licence (Expat)](https://opensource.org/licenses/MIT).
+
+### Sponsoring ###
+
+[Squash TM](http://squashtest.org/en/decouvrir-squash-tm/contenu-statique/outils-et-fonctionnalites/squash-tm-test-management-en) and the present plugin are both
+developed by [Henix]('https://www.henix.com/').
 
 
 # Configuration #
@@ -77,7 +87,7 @@ The following features are **NOT** supported :
 
 ---
 
-# Developper documentation #
+# Developer documentation #
 ## Requirements ##
 
 * Java jdk, version 1.7+

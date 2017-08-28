@@ -24,6 +24,8 @@ jenkinsPlugin {
     // human-readable name of plugin                                               
     displayName = 'Squash TM Publisher'
 
+	url = 'https://wiki.jenkins.io/display/JENKINS/Squash4Jenkins+Plugin'
+
     // use the plugin class loader before the core class loader, defaults to false
     pluginFirstClassLoader = true
 
@@ -63,8 +65,16 @@ jenkinsPlugin {
             id 'bsiri'
             name 'Benoit Siri'
             email 'bsiri@henix.fr'
+			organization 'Henix'
+			organizationUrl 'https://www.henix.com/'
         }
-    }                        
+		developer {
+			id 'devsquash'
+			email 'devsquash@henix.fr'
+			organization 'Henix'
+		}
+    }
+
 }
 
 // ********* code-related tasks configuration *****************
