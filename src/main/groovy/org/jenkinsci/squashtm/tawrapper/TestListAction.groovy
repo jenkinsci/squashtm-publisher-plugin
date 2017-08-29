@@ -38,6 +38,11 @@ import hudson.model.Job
 import jenkins.model.TransientActionFactory;
 import javax.annotation.Nonnull
 
+/**
+ * Publishes the test list at the job-relative url : '/Test_list/testTree.json'. This is how the regular TM / TA
+ * stack does it (see the package-info).
+ *
+ */
 class TestListAction implements Action {
 	
 	private transient Job job

@@ -32,6 +32,10 @@ import hudson.model.Job
 import jenkins.model.OptionalJobProperty
 import jenkins.model.OptionalJobProperty.OptionalJobPropertyDescriptor;
 
+/**
+ * That class is the checkbox 'Enable TM integration', and publish the much important {@link StaplerBuildOverride}.
+ *
+ */
 class SquashTAWrapperProperty extends OptionalJobProperty<Job<?,?>>{
 
 	@DataBoundConstructor

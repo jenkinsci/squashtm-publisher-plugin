@@ -55,7 +55,7 @@ import static org.jenkinsci.squashtm.tawrapper.TA.PRM_NOTIFICATION_URL
  * <p>
  * 	The plugin chooses this mode when the build was triggered by Squash TA (and the TA wrapper is enabled).
  * 	In this mode, each test result will be sent in its own HTTP request. The URL where they will be posted must be
- * 	extracted from the test suite descriptor file sent by Squash TM. TestResult than cannot be found in the test suite
+ * 	extracted from the test suite descriptor file sent by Squash TM. TestResults than cannot be found in the test suite
  * 	descriptor file will not be sent, although in this case they will be logged.
  * </p>
  * 
