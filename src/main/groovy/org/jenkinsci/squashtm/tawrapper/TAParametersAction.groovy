@@ -21,15 +21,13 @@
  *     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *     THE SOFTWARE.
  */
-package org.jenkinsci.squashtm.tawrapper;
+package org.jenkinsci.squashtm.tawrapper
 
-import org.apache.commons.fileupload.FileItem
-import static org.jenkinsci.squashtm.tawrapper.TA.*
-import groovy.transform.EqualsAndHashCode;
+import groovy.transform.EqualsAndHashCode
 import hudson.model.Action
+import org.apache.commons.fileupload.FileItem
 
-
-
+import static org.jenkinsci.squashtm.tawrapper.TA.*
 
 public class TAParametersAction implements Action {
 

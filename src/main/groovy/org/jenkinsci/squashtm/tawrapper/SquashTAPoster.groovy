@@ -21,25 +21,18 @@
  *     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *     THE SOFTWARE.
  */
-package org.jenkinsci.squashtm.tawrapper;
-
-import static org.jenkinsci.squashtm.core.TestResult.ExecutionStatus.*
-
-import org.jenkinsci.squashtm.core.TMServer;
-import org.jenkinsci.squashtm.core.TestResult;
-import org.jenkinsci.squashtm.core.TestResult.ExecutionStatus;
+package org.jenkinsci.squashtm.tawrapper
 
 import groovy.json.JsonSlurper
 import hudson.FilePath
-
-import org.jenkinsci.squashtm.utils.HttpClient
 import org.jenkinsci.squashtm.core.JobInformations
-import org.jenkinsci.squashtm.tawrapper.TAParametersAction.FileBuildParameter;
+import org.jenkinsci.squashtm.core.TMServer
+import org.jenkinsci.squashtm.core.TestResult
+import org.jenkinsci.squashtm.tawrapper.TAParametersAction.FileBuildParameter
+import org.jenkinsci.squashtm.utils.HttpClient
 
-import static org.jenkinsci.squashtm.tawrapper.TA.PRM_TEST_SUITE_JSON
 import static org.jenkinsci.squashtm.tawrapper.TA.PRM_NOTIFICATION_URL
-
-
+import static org.jenkinsci.squashtm.tawrapper.TA.PRM_TEST_SUITE_JSON
 
 /**
  * <p>

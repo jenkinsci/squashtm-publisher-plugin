@@ -24,13 +24,12 @@
 package org.jenkinsci.squashtm.utils
 
 import net.sf.json.JSONObject
-
 import org.apache.http.HttpHost
 import org.apache.http.auth.AuthScope
 import org.apache.http.auth.UsernamePasswordCredentials
 import org.apache.http.client.AuthCache
 import org.apache.http.client.CredentialsProvider
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpPost
 import org.apache.http.client.protocol.HttpClientContext
 import org.apache.http.entity.StringEntity

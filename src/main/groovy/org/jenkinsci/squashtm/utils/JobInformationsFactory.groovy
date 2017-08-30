@@ -23,15 +23,13 @@
  */
 package org.jenkinsci.squashtm.utils
 
-import org.jenkinsci.squashtm.core.JobInformations
-import org.jenkinsci.squashtm.tawrapper.SquashTAWrapperProperty;
-import org.jenkinsci.squashtm.tawrapper.TAParametersAction;
-
 import hudson.FilePath
-import hudson.model.ParameterValue;
-import hudson.model.ParametersAction;
+import hudson.model.ParametersAction
 import hudson.model.Run
-import jenkins.model.Jenkins;
+import jenkins.model.Jenkins
+import org.jenkinsci.squashtm.core.JobInformations
+import org.jenkinsci.squashtm.tawrapper.SquashTAWrapperProperty
+import org.jenkinsci.squashtm.tawrapper.TAParametersAction
 
 /**
  * <p>

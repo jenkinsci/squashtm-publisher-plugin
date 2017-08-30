@@ -23,8 +23,6 @@
  */
 package org.jenkinsci.squashtm.tawrapper
 
-import java.util.Map;
-
 class TA {
 	
 	/*

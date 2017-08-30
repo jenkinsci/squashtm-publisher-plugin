@@ -25,16 +25,10 @@ package org.jenkinsci.squashtm.tawrapper
 
 import groovy.json.JsonBuilder
 import hudson.FilePath
-import hudson.remoting.VirtualChannel;
+import hudson.remoting.VirtualChannel
 import jenkins.SlaveToMasterFileCallable
-
-import java.io.File;
-import java.io.IOException
-import java.util.Collection;
-import java.util.List;
-
-import org.jenkinsci.squashtm.core.TestResult
 import org.jenkinsci.squashtm.core.JobInformations
+import org.jenkinsci.squashtm.core.TestResult
 
 class TestListSaver {
 	

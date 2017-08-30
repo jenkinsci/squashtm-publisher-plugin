@@ -23,12 +23,10 @@
  */
 package org.jenkinsci.squashtm.core
 
-import org.kohsuke.stapler.DataBoundConstructor
-
 import hudson.Extension
-import hudson.model.AbstractDescribableImpl;
-import hudson.model.Descriptor;
-
+import hudson.model.AbstractDescribableImpl
+import hudson.model.Descriptor
+import org.kohsuke.stapler.DataBoundConstructor
 
 /**
  * a SelectedServer represents a {@link TMServer} that has been selected specifically for a given build.

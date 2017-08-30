@@ -23,12 +23,12 @@
  */
 package org.jenkinsci.squashtm.core
 
-
 import hudson.model.Run
 import hudson.tasks.test.AbstractTestResultAction
 import hudson.tasks.test.AggregatedTestResultAction
-import static org.jenkinsci.squashtm.core.TestResult.ExecutionStatus.*
 import org.jenkinsci.squashtm.core.TestResult.ExecutionStatus
+
+import static org.jenkinsci.squashtm.core.TestResult.ExecutionStatus.*
 
 /**
  * That class will read a build's TestResultAction and find the tests it holds.

@@ -25,25 +25,23 @@ package org.jenkinsci.squashtm.tawrapper
 
 import hudson.model.AbstractProject
 import hudson.model.ParametersDefinitionProperty
-
-import java.util.logging.Level
-import java.util.logging.Logger
-
-import javax.servlet.ServletException
-
 import jenkins.util.TimeDuration
 import net.sf.json.JSONArray
 import net.sf.json.JSONObject
-
 import org.apache.commons.fileupload.FileItem
-import org.jenkinsci.squashtm.tawrapper.TAParametersAction
 import org.jenkinsci.squashtm.tawrapper.TAParametersAction.BuildParameter
 import org.jenkinsci.squashtm.tawrapper.TAParametersAction.FileBuildParameter
 import org.jenkinsci.squashtm.tawrapper.TAParametersAction.StringBuildParameter
-import static org.jenkinsci.squashtm.tawrapper.TA.*
 import org.kohsuke.stapler.QueryParameter
 import org.kohsuke.stapler.StaplerRequest
 import org.kohsuke.stapler.StaplerResponse
+
+import javax.servlet.ServletException
+import java.util.logging.Level
+import java.util.logging.Logger
+
+import static org.jenkinsci.squashtm.tawrapper.TA.PARAMETERS
+import static org.jenkinsci.squashtm.tawrapper.TA.PRM_TEST_SUITE_JSON
 
 /**
  * <p>

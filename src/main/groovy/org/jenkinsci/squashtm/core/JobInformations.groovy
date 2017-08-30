@@ -21,12 +21,11 @@
  *     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *     THE SOFTWARE.
  */
-package org.jenkinsci.squashtm.core;
-
-import org.jenkinsci.squashtm.tawrapper.TAParametersAction
+package org.jenkinsci.squashtm.core
 
 import hudson.FilePath
 import hudson.model.ParameterValue
+import org.jenkinsci.squashtm.tawrapper.TAParametersAction
 
 /**
  * <p>

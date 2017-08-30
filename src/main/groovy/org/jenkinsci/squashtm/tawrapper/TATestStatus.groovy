@@ -23,10 +23,10 @@
  */
 package org.jenkinsci.squashtm.tawrapper
 
-import org.jenkinsci.squashtm.core.TestResult;
-import org.jenkinsci.squashtm.core.TestResult.ExecutionStatus;
-import static org.jenkinsci.squashtm.core.TestResult.ExecutionStatus.*;
-import java.util.Date
+import org.jenkinsci.squashtm.core.TestResult
+import org.jenkinsci.squashtm.core.TestResult.ExecutionStatus
+
+import static org.jenkinsci.squashtm.core.TestResult.ExecutionStatus.*
 
 /**
  * This bean contains the minimum informations expected by Squash TM 

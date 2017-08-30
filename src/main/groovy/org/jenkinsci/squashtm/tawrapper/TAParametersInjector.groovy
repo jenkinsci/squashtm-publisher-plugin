@@ -23,7 +23,6 @@
  */
 package org.jenkinsci.squashtm.tawrapper
 
-import static org.jenkinsci.squashtm.tawrapper.TA.*
 import hudson.Extension
 import hudson.model.AbstractProject
 import hudson.model.Action
@@ -31,13 +30,13 @@ import hudson.model.FileParameterValue
 import hudson.model.ParametersAction
 import hudson.model.Queue.QueueDecisionHandler
 import hudson.model.Queue.Task
+import org.apache.commons.fileupload.FileItem
+import org.apache.commons.fileupload.disk.DiskFileItem
+import org.jenkinsci.squashtm.tawrapper.TAParametersAction.FileBuildParameter
 
 import java.util.logging.Level
 import java.util.logging.Logger
 
-import org.apache.commons.fileupload.FileItem
-import org.apache.commons.fileupload.disk.DiskFileItem
-import org.jenkinsci.squashtm.tawrapper.TAParametersAction.FileBuildParameter
 import static org.jenkinsci.squashtm.tawrapper.TA.PRM_TEST_SUITE_JSON
 
 /**

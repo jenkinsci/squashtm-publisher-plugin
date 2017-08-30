@@ -23,34 +23,26 @@
  */
 package org.jenkinsci.squashtm.core
 
-
 import hudson.Extension
 import hudson.FilePath
 import hudson.Launcher
 import hudson.model.AbstractProject
-import hudson.model.Describable
-import hudson.model.Descriptor
+import hudson.model.Descriptor.FormException
 import hudson.model.Run
 import hudson.model.TaskListener
-import hudson.model.Descriptor.FormException
 import hudson.tasks.BuildStepDescriptor
 import hudson.tasks.BuildStepMonitor
 import hudson.tasks.Notifier
 import hudson.tasks.Publisher
-
-import java.util.logging.Logger
-
 import jenkins.tasks.SimpleBuildStep
 import net.sf.json.JSONObject
-
+import org.jenkinsci.Symbol
 import org.jenkinsci.squashtm.lang.Messages
 import org.jenkinsci.squashtm.tawrapper.SquashTAPoster
-import org.jenkinsci.squashtm.tawrapper.TALinkConfWriter
 import org.jenkinsci.squashtm.tawrapper.TestListSaver
 import org.jenkinsci.squashtm.utils.JobInformationsFactory
 import org.kohsuke.stapler.DataBoundConstructor
 import org.kohsuke.stapler.StaplerRequest
-
 
 /**
  * @author bsiri
@@ -151,8 +143,19 @@ public class SquashTMPublisher extends Notifier implements SimpleBuildStep{
 	
 	
 	// ************************* Descriptor section *************************************
-	
+
+	/*
+	 * This is the configuration object that appear in the system configuration,
+	 * and allows to register instances of Squash TM globally.
+	 *
+	 * TODO :
+	 * 	as the plugin grows, try to make that descriptor shareable between multiple
+	 * 	extension using jenkins.model.GlobalConfiguration. I also like the name
+	 * 	'GlobalConfiguration' because it's self-explanatory.
+	 *
+	 */
 	@Extension
+	@Symbol("squashtm")
 	public static class PublisherStepDescriptor extends BuildStepDescriptor<Publisher>{
 		
 		List<TMServer> tmServers
@@ -187,14 +190,7 @@ public class SquashTMPublisher extends Notifier implements SimpleBuildStep{
 			// because dumping the user conf over a petty typo in a URL and not letting the user know is so jerk-ish
 			// the user had a chance to validate before applying the configuration so let's assume he knows what he's doing.
 			save();
-			
-			/*
-			 * Also, to prepare Jenkins for possible Squash TA jobs, this configuration should be written in the file that 
-			 * Squash TA expects (about which TM server it knows and how to authenticate on them)   
-			 * 
-			 */
-			new TALinkConfWriter().save(this)
-			
+
 			true
 			
 		}

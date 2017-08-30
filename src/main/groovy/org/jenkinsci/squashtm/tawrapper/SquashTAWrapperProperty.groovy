@@ -23,14 +23,13 @@
  */
 package org.jenkinsci.squashtm.tawrapper
 
-import org.jenkinsci.squashtm.lang.Messages
-import org.kohsuke.stapler.DataBoundConstructor;
-
 import hudson.Extension
-import hudson.model.AbstractProject;
+import hudson.model.AbstractProject
 import hudson.model.Job
 import jenkins.model.OptionalJobProperty
-import jenkins.model.OptionalJobProperty.OptionalJobPropertyDescriptor;
+import jenkins.model.OptionalJobProperty.OptionalJobPropertyDescriptor
+import org.jenkinsci.squashtm.lang.Messages
+import org.kohsuke.stapler.DataBoundConstructor
 
 /**
  * That class is the checkbox 'Enable TM integration', and publish the much important {@link StaplerBuildOverride}.

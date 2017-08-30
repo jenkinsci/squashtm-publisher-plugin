@@ -23,11 +23,10 @@
  */
 package org.jenkinsci.squashtm.core.SquashTMPublisher
 
-
 import lib.FormTagLib
 import org.jenkinsci.squashtm.lang.Messages
-import static org.jenkinsci.squashtm.core.SquashTMPublisher.DUMMY_SELECTED_SERVER_NAME
 
+import static org.jenkinsci.squashtm.core.SquashTMPublisher.DUMMY_SELECTED_SERVER_NAME
 
 /*
  * TODO : the following will be used when the coutinuous publishing feature will be implemented.

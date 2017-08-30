@@ -23,10 +23,6 @@
  */
 package org.jenkinsci.squashtm.core
 
-import java.io.PrintStream;
-import java.util.Collection;
-
-
 class ResultPoster {
 	void postResults(JobInformations info, Collection<TestResult> results, PrintStream logger){
 		// NOOP for now

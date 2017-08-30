@@ -28,17 +28,13 @@ import hudson.model.AbstractDescribableImpl
 import hudson.model.Descriptor
 import hudson.util.FormValidation
 import hudson.util.FormValidation.URLCheck
-
-import java.util.logging.Level
-import java.util.logging.Logger
-
-import javax.servlet.ServletException
-
 import org.jenkinsci.squashtm.lang.Messages
 import org.kohsuke.stapler.DataBoundConstructor
 import org.kohsuke.stapler.QueryParameter
 
-
+import javax.servlet.ServletException
+import java.util.logging.Level
+import java.util.logging.Logger
 
 /**
  * This class represents the Squash TM servers that the plugin is aware of, at the global level.

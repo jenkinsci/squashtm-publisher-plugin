@@ -23,19 +23,13 @@
  */
 package org.jenkinsci.squashtm.tawrapper
 
-import java.io.IOException
-import java.util.Collection;
-
-import javax.servlet.ServletException;
-
-import org.kohsuke.stapler.HttpResponse
-import org.kohsuke.stapler.WebMethod;
-
-import groovy.json.JsonOutput
-import hudson.Extension;
-import hudson.model.Action;
+import hudson.Extension
+import hudson.model.Action
 import hudson.model.Job
-import jenkins.model.TransientActionFactory;
+import jenkins.model.TransientActionFactory
+import org.kohsuke.stapler.HttpResponse
+import org.kohsuke.stapler.WebMethod
+
 import javax.annotation.Nonnull
 
 /**
