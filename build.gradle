@@ -139,9 +139,8 @@ dependencies {
  *	==========
  *
  *
- *	Configuration of the 'maven-publish' plugin. Since this project is closed sources we cannot 
- *	publish to the usual repositories (neither official Jenkins repository, neither Squash repository).
- *	The following ensures that the artifacts are pushed :
+ *	Configuration of the 'maven-publish' plugin. Since we want to keep the release candidates private
+ *  and push to jenkins-ci.org the actual release only, we have to make sure that the artifacts are pushed :
  * 		- on the regular maven repository (dev machine)
  * 		- on the 'private-deploy' repository (on our forge) 
  *
@@ -188,6 +187,17 @@ release {
 }
 
 // make the release process push the built artifact to the repository before updating to the new dev version
+// if the release is an actual release (not a release candidate), also push to jenkins.
+// remember that it will look to file ~/.jenkins-ci.org for the credentials for jenkins-ci artifactory
 afterReleaseBuild {
-	dependsOn publishToPrivateRepo
+
+	// if the version number is only numeral then we are publishing an actual release
+	if (project.version.toString() ==~ /\d+\.\d+\.\d+/){
+		dependsOn publish
+	}
+	// else this is a release candidate or some other test version, keep it home.
+	else{
+		dependsOn publishToPrivateRepo
+	}
+
 }
