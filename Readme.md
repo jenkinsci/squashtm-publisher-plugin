@@ -1,32 +1,32 @@
 # Squash TM publisher #
 
 
-### Description ###
-This plugin publishes the test results of a Jenkins build in [Squash TM](http://squashtest.org/en/decouvrir-squash-tm/contenu-statique/outils-et-fonctionnalites/squash-tm-test-management-en). It works on top of other publisher plugins dedicated to the test technology that used in the build (junit, nunit, mstest etc), before pushing the results. See the wiki at <https://wiki.jenkins.io/display/JENKINS/Squash4Jenkins+Plugin>.
+## Description ##
+This plugin publishes the test results of a Jenkins build in [Squash TM](http://squashtest.org/en/decouvrir-squash-tm/contenu-statique/outils-et-fonctionnalites/squash-tm-test-management-en). It works on top of other publisher plugins dedicated to the test technology that used in the build (junit, nunit, mstest etc), before pushing the results.
 
 
-### Usage ###
+## Usage ##
 The plugin leverages the workflow implemented in the [Squash TM / Squash TA integration scenario](https://sites.google.com/a/henix.fr/wiki-squash-ta/tm---ta-guide/user-guide). In a few words, it allows Squash TM to list the tests of a job, trigger a build and gather the test results, with some restrictions (listed in section [Comparison with Squash TA](#comparison-with-squash-ta)). The job can be of any nature (free-style or else) and use any test technology (if a Jenkins plugin is also configured for it).
 
 Also, due to the nature of that workflow please note that in this version the publisher will process the results **only if the build was triggered by Squash TM**. This limitation will be addressed in future developments.
 
 
-### Future developments ###
+## Future developments ##
 In the future we plan to add the following features :
 
 * publish the test results continuously,
 * simplify the deployment of Squash TA projects.
 
 
-### Dependencies ###
+## Dependencies ##
 This plugin works for Jenkins version 1.651.3 or higher and requires JUnit plugin v1.19+ (not tested with earlier versions).
 
 
-### License ###
+## License ##
 
 This plugin is licensed under the [MIT licence (Expat)](https://opensource.org/licenses/MIT).
 
-### Sponsoring ###
+## Sponsoring ##
 
 [Squash TM](http://squashtest.org/en/decouvrir-squash-tm/contenu-statique/outils-et-fonctionnalites/squash-tm-test-management-en) and the present plugin are both
 developed by [Henix]('https://www.henix.com/').
@@ -43,6 +43,8 @@ As an administrator, go to the system configuration (first item in the administr
 * login : the login of the account on Squash TM that Jenkins will use to push the results. NB : that user must belong to the 'Test Automation Server' user group.
 * password : the password of that user.
 
+![](https://wiki.jenkins.io/download/attachments/135462990/jenkins_global_settings.PNG?version=1&modificationDate=1504108174000&api=v2)
+
 These will allow the plugin to identify instances of Squash TM that request for result update, and to authenticate on them.
 
 The 'validate' button (next to 'delete') will test that the server is reachable and up. For now the credentials aren't validated yet. Potential errors in your configuration will issue a warning. Once you are done save the configuration as usual. You can save the configuration even if warnings were reported, e.g. when the endpoint is down at the moment yet the URL is correct nonetheless.
@@ -52,21 +54,170 @@ The 'validate' button (next to 'delete') will test that the server is reachable 
 
 As a job manager, go to the configuration page of your job.
 
-Jobs of all nature are supported. As a job manager, go to the configuration page of your job. In order to work the plugin requires two simple items. First, on the general job properties, tick the box 'Enable integration with Squash TM'. Then add a new post-build step : 'Publish your tests results on Squash TM'.
+Jobs of all nature are supported. As a job manager, go to the configuration page of your job. In order to work the plugin requires two simple items. First, on the general job properties, tick the box 'Enable integration with Squash TM'.
+![](https://wiki.jenkins.io/download/attachments/135462990/jenkins_general.PNG?version=1&modificationDate=1504109199000&api=v2)
+Then add a new post-build step : 'Publish your tests results on Squash TM'.
+![](https://wiki.jenkins.io/download/attachments/135462990/jenkins_publish_tm.PNG?version=1&modificationDate=1504109198000&api=v2)
 
 That's all you need to configure TM-publisher per-se. However you will also need to configure additional test result publishers such as [JUnit plugin](https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin), [NUnit plugin](https://wiki.jenkins-ci.org/display/JENKINS/NUnit+Plugin), [JSUnit plugin](https://wiki.jenkins-ci.org/display/JENKINS/JSUnit+plugin) etc. Remember that TM-publisher simply pushes tests results, it does not generate them.
 
 Note that 'Maven project' job style implicitly handle jUnit test results : if you run a Maven job and your tests are run by a jUnit runner you don't need to configure extra test results publishers.
 
+In some cases, further configuration is needed to access the reports.
 
-## Squash TM configuration ##
+The following example is a Junit test with Gradle :
 
-You will find a detailed procedure hosted on the [Squash TA documentation site](https://sites.google.com/a/henix.fr/wiki-squash-ta/tm---ta-guide/2---configuration/configuring-tm/from-1-13-0). That documentation details the steps to :
+* As a job manager, go to the configuration page of your job then to
+    the ‘*Post-build Actions*’ tab
+* Add a new post-build action: ‘*Publish Junit test result report*’
+* Fill in the ‘*Test report XMLs field*’ with the path of your test
+    reports
+* Make sure the ‘*Publish Junit test result report*’ action is above
+    ‘*Publish your tests results on Squash TM*’.
 
-* declare an instance of Jenkins,
-* declare a system user for Jenkins,
-* make projects automation-ready
+![](https://wiki.jenkins.io/download/attachments/135462990/jenkins_publish_junit.PNG?version=1&modificationDate=1504109928000&api=v2)
 
+![](https://wiki.jenkins.io/download/attachments/135462990/jenkins_path.PNG?version=1&modificationDate=1504109980000&api=v2)
+# Squash TM configuration
+
+## Configure Squash TM properties
+
+* Open the **squash.tm.cfg.properties** file located in the conf
+    folder of Squash TM installation folder (ex : C:\\Squash-TM\\conf)
+* Look for **tm.test.automation.server.callbackurl** and uncomment it
+* Add the Squash TM url (ex: <http://192.168.2.138:8080/squash>). This
+    URL will be used by Squash4Jenkins to notify Squash TM of the
+    execution progress
+* Restart Squash TM
+
+## Add a Jenkins instance to Squash TM
+
+### Create a Test Automation Server User
+
+You only need to create one automated server user, even if you want to
+add several automated servers.
+
+* In Squash TM, as an administrator, click on *Administration* (in the
+    upper corner) then click on *Users.*
+* Click on **\[Add\]**. A popup displays
+* In the *Group* field, select *Test Automation Server*.
+* Fill in the *Login* and *Password* fields with the login and
+    password you have configured in Jenkins (in system configuration).
+* Click on **\[Add\].**
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_add_user.jpg?version=2&modificationDate=1504168734000&api=v2)
+
+### Create a Test Automation Server
+
+* In Squash TM, click on *Administration* (in the upper corner) then
+    click on *Automation servers*.
+* Click on **\[Add\]**. A popup displays.
+* Fill in the URL field with the Jenkins url (ex :
+    <http://localhost:9080/jenkins).>
+* Fill in the *Login* and *Password* fields with the login and
+    password of the Jenkins user dedicated to automation.
+* Click on **\[Add\].**
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_add_automation_server.jpg?version=2&modificationDate=1504168733000&api=v2)
+
+  
+
+Login must be unique for each URL 
+
+## Configure a Squash project for automation
+
+* Click on *Administration* (in the upper corner) then click on
+    *Projects*.
+* Select an existing project, scroll down to *Test automation
+    management*.
+* Click on *No server*. A drop down menu displays with the test
+    automation displays.
+* Select the server you have previously added and click on
+    **\[Confirm\]**.
+* In the Test automation management you should see a new section
+    called Jobs.
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_project_automation_server.png?version=1&modificationDate=1504171420000&api=v2)
+
+* Click on **\[+\]**. A popup *Add a job* displays with all the jobs
+    you have in Jenkins
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_project_jobs.png?version=2&modificationDate=1504171749000&api=v2)
+
+* Select the job(s) you want to add. You can change their label in
+    Squash TM.
+
+Job's name can't be blank and must be unique
+
+* Click on **\[Confirm\]**
+
+  
+
+You can edit your job (pencil button) if you want to further configure
+it.
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_project_edit_job.png?version=2&modificationDate=1504171983000&api=v2){width="550"}
+
+  
+
+The Squash TM project is now automation-ready. Please consult the user
+guide to trigger Jenkins builds from Squash TM and get the results.
+
+  
+
+# User guide
+
+## Create an automated test
+
+* In the *Test Cases Workspace*, select a project that is
+    automation-ready
+* Click on **\[+\]** to create a new test case
+* Fill in the '*Name*' field and click on **\[Add\]**
+* On the *Auto. script* field, click on '**Click to edit...**'
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_tc_auto_script.png?version=1&modificationDate=1504183929000&api=v2)
+
+* Associate the automation script to the test case. You can type the
+    name of the script (/TM\_JOB\_NAME/Path\_to\_the\_script) or use the
+    **\[Pick...\]** button
+
+The TM\_JOB\_NAME will be checked, but the path\_to\_the\_script won't.
+To be safe use the Pick...button.
+
+* Click on **\[Confirm\]**
+
+  
+
+## Run an automated test
+
+* In the *Campaign Workspace*, select a project and click on **\[+\]**
+* Create a new campaign and an iteration
+* Select the iteration and in the '*Execution Plan*' tab, click on
+    **\[+ Add\]**
+* Drag and drop the automated test from the Test Case Library to the
+    Execution Plan and click on **\[Back\]**
+* To run the test, use one of the buttons on the screen below:
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_iteration.PNG?version=1&modificationDate=1504185060000&api=v2)
+
+* A popup *Overview of automated test executions* displays. Once the
+    execution is over, the status and the progress bar are updated.
+    Click on **\[Close\]**.
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_results.PNG?version=1&modificationDate=1504185853000&api=v2)
+
+* On the execution plan, click on the test case name to show all
+    executions of the test.
+* Click on an Execution to access execution details where are
+    displayed:  
+    *   the status (Squash TM status)
+    *   the automated test status
+    *   a link to the report (result URL)
+    *   a link to the job (job URL)
+
+![](https://wiki.jenkins.io/download/attachments/135462990/squash_execution_details.png?version=1&modificationDate=1504187813000&api=v2)
+
+  
 # Comparison with Squash TA #
 
 The main user stories implemented by a regular Squash TM-TA stack are fullfiled by the TM-publisher, but not all. Because the TM-publisher plugin makes no assumption about the actual build tools and test runners involved in the Jenkins build, many advanced features from Squash TA are not available here due to integration problems.
@@ -87,71 +238,3 @@ The following features are **NOT** supported :
 
 ---
 
-# Developer documentation #
-## Requirements ##
-
-* Java jdk, version 1.7+
-* Groovy, version 1.8+
-* Gradle, version 2.14 used during the development preferred but not critical.
-
-## Installation ##
-
-Download the project sources and install them in your favourite IDE.
-Then generate the gradle wrapper : 
-
-```
-gradle wrapper --gradle-version <your favorite version>
-```
-
-From now on, all builds should use `gradlew` (instead of gradle)
-
-## Documentation ##
-
-The various src/*/package-info.java contains an overview of the mission and code
-structure, along with references to the important classes (which sometimes also have
-their own doc).
-
-## Useful build commands ##
-
-Please refer to [this doc site](https://wiki.jenkins-ci.org/display/JENKINS/Gradle+JPI+Plugin)
-
-* build : `gradlew build`
-* package : `gradlew jpi`
-* unit tests : `gradlew test`
-* run in server : `gradlew server` (access at http://localhost:8080)
-* debug in server : `gradlewSrv` 
-* push to maven repository : `gradlew publishToPrivateRepo`
-* perform release : `gradlew release`
-
-## Additional tools ##
-
-### gradlewTest ###
-
-This is a simple script that help you to run `gradlew test` in debug mode. See the comments inside and decide whether this useful to you.
-
-### gradlewSrv ###
-
-Note : gradlewSrv is a convenient shortcut that sets your JVM right, but also works around a bug due to gradle daemon. It also disable much of Jenkins default debugging options, which are rather performance demanding, however you may enable them if you need to (run gradlewSrv -help and see what is in there). See also next section (about hotswap).
-
-### Support for hotswap in Eclipse ###
-
-I could not get Eclipse to hotswap code out of the box for several reasons. I basically had to do the same as in [this thread](http://stackoverflow.com/questions/31127533/is-hot-code-replace-supposed-to-work-for-groovy-in-eclipse/31143994#31143994). The use of DCEVM + groovyReset handle nicely whatever Java bytecode your Groovy is translated to, which could be rejected by the native JPDA hotswap feature otherwise. Here is the checklist : 
-
-1. Install a very specific version of the JDK, one supported by [DCEVM](https://dcevm.github.io/) extensions. For instance you will find an appropriate JDK 8 [here](http://www.oracle.com/technetwork/java/javase/downloads/java-archive-javase8-2177648.html#jdk-8u92-oth-JPR)
-2. Download the corresponding [DCEVM extension](https://dcevm.github.io/) and patch that JVM with it. You only need the JVM patch part, the HotswapAgent would not work here (Groovy is not supported yet).
-3. Edit the script gradlewSrv accordingly (check JAVA_HOME and the flag -XXaltjvm, make the whole thing point to your patched JVM).
- 
-4. Edit your Eclipse .classpath and set :
-```
-<classpathentry kind="output" path="build/classes/main"/>
-```
-instead of
-```
-<classpathentry kind="output" path="bin"/>
-```
-
-This will tell Eclipse to watch this directory for class changes (thus trigger hotswap when appropriate). However we dont want it to mess with the output of the Gradle build, hence the next step.
-
-5. Disable 'Build automatically', or if you prefer hack in your file .project and remove the build commands that do compilation job.
-
-With this setup, you can replace code by recompiling using `gradlew build -x test` then refreshing the build output directory so that Eclipse knows it must hotswap the changes. 
