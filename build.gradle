@@ -24,7 +24,7 @@ jenkinsPlugin {
     // human-readable name of plugin                                               
     displayName = 'Squash TM Publisher (Squash4Jenkins)'
 
-	url = 'https://wiki.jenkins.io/display/JENKINS/Squash4Jenkins+Plugin'
+	url = 'https://github.com/jenkinsci/squashtm-publisher-plugin'
 
     // use the plugin class loader before the core class loader, defaults to false
     pluginFirstClassLoader = true
